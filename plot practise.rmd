@@ -28,10 +28,8 @@ plot(pressure)
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
 
 
-```{r echo=True}
-
+```{r, echo=FALSE}
 require(graphics)
-
 dnorm(0) == 1/sqrt(2*pi)
 dnorm(1) == exp(-1/2)/sqrt(2*pi)
 dnorm(1) == 1/sqrt(2*pi*exp(1))
