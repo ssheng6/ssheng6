@@ -1,0 +1,10 @@
+---
+title: "Readme"
+output: html_document
+---
+
+```{r setup}
+x.values = seq(10,30, length = 1000)
+y.values = dnorm(x.values, 20, 1.65)
+plot(x.values, y.values, type="l", lty=1, xlab="Z value", ylab="Probability", main="Normal Distribution")
+```
