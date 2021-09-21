@@ -5,13 +5,38 @@ date: "9/18/2021"
 output: html_document
 ---
 ```{r}
-
 thepage = readLines("https://guide.wisc.edu/faculty/")
-grep('<ul clasepage)s="uw-people"><li><p>',thepage)
 
-mypattern = "<li><p>([^<br/>]*)</p></li>"
+grep('<ul class="uw-people"><li><p>',thepage)
 
-datalines = grep(mypattern,thepage[166:168],value=TRUE)
+mypattern = '<li><p>([^<br/>]*)</p></li>'
+
+datalines = grep(mypattern,thepage[165:191],value=TRUE)
+
+
+getexpr = function(s,g)substring(s,g,g+attr(g,'match.length')-1)
+
+gg = gregexpr(mypattern,datalines)
+
+matches = mapply(getexpr,datalines,gg)
+
+result = gsub(mypattern,'\\1',matches)
+
+names(result) = NULL
+
+result[1:1000]
+
+schedule = as.data.frame(matrix(result,ncol=4,byrow=TRUE)) 
+
+names(schedule) = c('Name','Title','specialized in','graduate from') 
+head(schedule)
+```
+mypattern = '<li><p>([^<]*)</p></li>'
+datalines = grep(mypattern,thepage[165:length(thepage)],value=TRUE)
+
+```
+
+datalines = grep(mypattern,thepage[166:169],value=TRUE)
 
 
 getexpr = function(s,g)substring(s,g,g+attr(g,'match.length')-1)
