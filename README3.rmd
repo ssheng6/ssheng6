@@ -1,0 +1,144 @@
+---
+title: "UW-Faculty table"
+author: "ssheng6"
+date: "9/18/2021"
+output: html_document
+---
+```{r}
+
+thepage = readLines("https://guide.wisc.edu/faculty/")
+grep('<ul clasepage)s="uw-people"><li><p>',thepage)
+
+mypattern = "<li><p>([^<br/>]*)</p></li>"
+
+datalines = grep(mypattern,thepage[166:168],value=TRUE)
+
+
+getexpr = function(s,g)substring(s,g,g+attr(g,'match.length')-1)
+
+gg = gregexpr(mypattern,datalines)
+
+matches = mapply(getexpr,datalines,gg)
+
+result = gsub(mypattern,'\\1',matches)
+
+names(result) = NULL
+
+result[1:1000]
+
+schedule = as.data.frame(matrix(result,ncol=4,byrow=TRUE)) 
+
+names(schedule) = c('Name','Title','specialized in','graduate from') 
+head(schedule)
+```
+
+```{r}
+noquote(strsplit("A text I want to display with spaces", NULL)[[1]])
+
+x <- c(as = "asfef", qu = "qwerty", "yuiop[", "b", "stuff.blah.yech")
+# split x on the letter e
+strsplit(x, "e")
+
+unlist(strsplit("a.b.c", "."))
+## [1] "" "" "" "" ""
+## Note that 'split' is a regexp!
+## If you really want to split on '.', use
+unlist(strsplit("a.b.c", "[.]"))
+## [1] "a" "b" "c"
+## or
+unlist(strsplit("a.b.c", ".", fixed = TRUE))
+
+## a useful function: rev() for strings
+strReverse <- function(x)
+        sapply(lapply(strsplit(x, NULL), rev), paste, collapse = "")
+strReverse(c("abc", "Statistics"))
+
+## get the first names of the members of R-core
+a <- readLines(file.path(R.home("doc"),"AUTHORS"))[-(1:8)]
+a <- a[(0:2)-length(a)]
+(a <- sub(" .*","", a))
+# and reverse them
+strReverse(a)
+
+## Note that final empty strings are not produced:
+strsplit(paste(c("", "a", ""), collapse="#"), split="#")[[1]]
+# [1] ""  "a"
+## and also an empty string is only produced before a definite match:
+strsplit("", " ")[[1]]    # character(0)
+strsplit(" ", " ")[[1]]   # [1] ""
+
+```
+
+
+```{r}
+
+library(rvest)
+library(dplyr)
+
+Penguin_html <- readLines ("https://guide.wisc.edu/faculty/")
+grep('<ul class="uw-people"><li><p>',Penguin_html)
+Penguin_html[166:191]
+firstpara <- Penguin_html[166]
+firstpara <- firstpara %>%
+  gsub("<ul class=\"uw-people\"><li><p>", "", .) %>%  # Remove leading html tag
+  gsub("<br/>", "", .) %>%  # Remove trailing html tag
+  gsub("^\\s+|\\s+$", "", .)  # Remove whitespace and replace with nothing
+firstpara
+iucn <- data.frame(firstpara)
+iucn
+```
+
+```{r}
+uop <- unlist(op <- options())
+length(uop) > length(op) # *atomic* vectors are still split into parts
+uop2 <- unlist(op, recursive = FALSE)
+
+l.ex <- list(a = list(1:5, LETTERS[1:5]), b = "Z", c = NA)
+unlist(l.ex, recursive = FALSE) # 'a' is still split ..
+unlist(l.ex, recursive = TRUE)
+
+l1 <- list(a = "a", b = 2, c = pi+2i)
+unlist(l1) # a character vector
+l2 <- list(a = "a", b = as.name("b"), c = pi+2i)
+unlist(l2) # remains a list
+
+ll <- list(as.name("sinc"), quote( a + b ), 1:10, letters, expression(1+x))
+utils::str(ll)
+for(x in ll)
+  stopifnot(identical(x, unlist(x)))
+```
+```{r}
+noquote(strsplit("A text I want to display with spaces", NULL)[[1]])
+
+x <- c(as = "asfef", qu = "qwerty", "yuiop[", "b", "stuff.blah.yech")
+# split x on the letter e
+strsplit(x, "e")
+
+unlist(strsplit("a.b.c", "."))
+## [1] "" "" "" "" ""
+## Note that 'split' is a regexp!
+## If you really want to split on '.', use
+unlist(strsplit("a.b.c", "[.]"))
+## [1] "a" "b" "c"
+## or
+unlist(strsplit("a.b.c", ".", fixed = TRUE))
+
+## a useful function: rev() for strings
+strReverse <- function(x)
+        sapply(lapply(strsplit(x, NULL), rev), paste, collapse = "")
+strReverse(c("abc", "Statistics"))
+
+## get the first names of the members of R-core
+a <- readLines(file.path(R.home("doc"),"AUTHORS"))[-(1:8)]
+a <- a[(0:2)-length(a)]
+(a <- sub(" .*","", a))
+# and reverse them
+strReverse(a)
+
+## Note that final empty strings are not produced:
+strsplit(paste(c("", "a", ""), collapse="#"), split="#")[[1]]
+# [1] ""  "a"
+## and also an empty string is only produced before a definite match:
+strsplit("", " ")[[1]]    # character(0)
+strsplit(" ", " ")[[1]]   # [1] ""
+```
