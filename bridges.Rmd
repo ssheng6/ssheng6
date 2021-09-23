@@ -1,0 +1,14 @@
+---
+title: "bridges"
+author: "ssheng6"
+date: "9/23/2021"
+output: html_document
+---
+
+```{r}
+
+bridgedata <- readline("https://www.fhwa.dot.gov/bridge/nbi/2019/AL19.txt", n =100)
+
+
+
+```
