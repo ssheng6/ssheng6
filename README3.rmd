@@ -25,14 +25,16 @@ schedule = as.data.frame(matrix(datascrap4,ncol=4,byrow=TRUE))
 
 schedule1 <- schedule[-c(1,1), ]
 
-names(schedule1) = c('Name','Position','Department','degree Information') 
+names(schedule1) = c('Name','Position','Department','Degree Information') 
 
 head(schedule1) 
-#kable(schedule1, caption = "UW-Madison faculty information")
+kable(schedule1, caption = "UW-Madison faculty information")
 
 ```
 
 ```{r,echo=FALSE}
+# I tried another way using mypattern, haven't figure out yet.
+
 thepage = readLines("https://guide.wisc.edu/faculty/")
 
 #grep('<ul class="uw-people"><li><p>',thepage)
