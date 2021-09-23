@@ -13,7 +13,7 @@ library(knitr)
 thepage = readLines("https://guide.wisc.edu/faculty/")
 
 #search which lines contain target information
-grep('<ul class="uw-people"><li><p>',thepage)
+#grep('<ul class="uw-people"><li><p>',thepage)
 
 
 datascrap <- thepage[166:191]
@@ -28,7 +28,7 @@ schedule1 <- schedule[-c(1,1), ]
 names(schedule1) = c('Name','Position','Department','degree Information') 
 
 head(schedule1) 
-kable(schedule1, caption = "UW-Madison faculty information")
+#kable(schedule1, caption = "UW-Madison faculty information")
 
 ```
 
