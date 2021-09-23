@@ -188,25 +188,26 @@ schedule = as.data.frame(matrix(datascrap4,ncol=4,byrow=TRUE))</code></pre>
 ## not a sub-multiple or multiple of the number of rows [3783]</code></pre>
 <pre class="r"><code>schedule1 &lt;- schedule[-c(1,1), ]
 
-names(schedule1) = c(&#39;Name&#39;,&#39;title&#39;,&#39;specialized in&#39;,&#39;degree hold&#39;) 
+names(schedule1) = c(&#39;Name&#39;,&#39;Position&#39;,&#39;Department&#39;,&#39;degree Information&#39;) 
 
 head(schedule1) </code></pre>
-<pre><code>##                   Name                 title         specialized in
+<pre><code>##                   Name              Position             Department
 ## 2   ABD-ELSAYED,ALAA A Assoc Professor (Chs)         Anesthesiology
 ## 3     ABDUALLAH,FAISAL             Professor                    Art
 ## 4 ABRAHAM,OLUFUNMILOLA   Assistant Professor               Pharmacy
 ## 5      ABRAMS,SAMANTHA        Assoc Lecturer     Information School
 ## 6         ABRAMSON,LYN             Professor             Psychology
 ## 7        ACKER,LINDSAY              Lecturer Accting &amp;amp; Info Sys
-##                           degree hold
+##                    degree Information
 ## 2        MD 2000 University of Assiut
 ## 3       PHD 2012 Royal College of Art
 ## 4  PHD 2013 Univ of Wisconsin-Madison
 ## 5   MA 2017 Univ of Wisconsin-Madison
 ## 6 PHD 1978 University of Pennsylvania
 ## 7 MACC 2005 Univ of Wisconsin-Madison</code></pre>
-<pre class="r"><code>kable(schedule1)</code></pre>
+<pre class="r"><code>kable(schedule1, caption = &quot;UW-Madison faculty information&quot;)</code></pre>
 <table>
+<caption>UW-Madison faculty information</caption>
 <colgroup>
 <col width="2%" />
 <col width="24%" />
@@ -218,9 +219,9 @@ head(schedule1) </code></pre>
 <tr class="header">
 <th align="left"></th>
 <th align="left">Name</th>
-<th align="left">title</th>
-<th align="left">specialized in</th>
-<th align="left">degree hold</th>
+<th align="left">Position</th>
+<th align="left">Department</th>
+<th align="left">degree Information</th>
 </tr>
 </thead>
 <tbody>

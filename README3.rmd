@@ -25,7 +25,7 @@ schedule = as.data.frame(matrix(datascrap4,ncol=4,byrow=TRUE))
 
 schedule1 <- schedule[-c(1,1), ]
 
-names(schedule1) = c('Name','title','specialized in','degree hold') 
+names(schedule1) = c('Name','Position','Department','degree Information') 
 
 head(schedule1) 
 kable(schedule1, caption = "UW-Madison faculty information")
