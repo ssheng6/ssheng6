@@ -3,9 +3,9 @@ title: "UW-Faculty table"
 author: "ssheng6"
 date: "9/18/2021"
 output:
-  pdf_document: default
-  word_document: default
   html_document: default
+  word_document: default
+  pdf_document: default
 ---
 
 ```{r}
