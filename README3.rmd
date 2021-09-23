@@ -15,19 +15,18 @@ thepage = readLines("https://guide.wisc.edu/faculty/")
 #search which lines contain target information
 #grep('<ul class="uw-people"><li><p>',thepage)
 
-
 datascrap <- thepage[166:191]
-datascrap2<- unlist(strsplit(datascrap,"(<br/>)",))
+datascrap2<- unlist(strsplit(datascrap,"(<br/>)",)) #strip <br/>
 datascrap3<- unlist(strsplit(datascrap2,"(</p></li><li><p>)",))
-datascrap4<- unlist(strsplit(datascrap3,"(<ulclass=\"uw-people\"><li><p>)"))
+datascrap4<- unlist(strsplit(datascrap3,"(<ulclass=\"uw-people\"><li><p>)")) 
+datascrap5 <- append(datascrap4, "",after = 87) # clean data add missing blank 
+datascrap6 <- append(datascrap5, "",after = 183) # clean data add missing blank 
 
-schedule = as.data.frame(matrix(datascrap4,ncol=4,byrow=TRUE))
+schedule = as.data.frame(matrix(datascrap6,ncol=4,byrow=TRUE))
 
 schedule1 <- schedule[-c(1,1), ]
 
 names(schedule1) = c('Name','Position','Department','Degree Information') 
-
-head(schedule1) 
 kable(schedule1, caption = "UW-Madison faculty information")
 
 ```
