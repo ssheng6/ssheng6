@@ -7,24 +7,48 @@ output: html_document
 
 ```{r}
 # install.packages("nycflights13")
-library(nycflights13)
-library(ggplot2)
-library(dplyr)
+require(nycflights13)
+require(ggplot2)
+require(dplyr)
+
 flights
 
-#How many flights have a missing dep_time? What other variables are missing? What might these rows represent?
+# Q1 (1) How many flights have a missing dep_time? 
 filter(flights,is.na(dep_time)) 
 #8255 flights has a missing dep_time 
 
-
+# Q1 (2)What other variables are missing? What might these rows represent?
 # dep_time, dep_delay, arr_time, arr_delay,air_time is missing. 
+# when flight cancelled. dep_time, dep_delay,arr_time,arr delay will be all missing
+# when arr_delay is na. arr_time has value, flight may be rerouted to another airport.
+# when dep_time and dep_delay has value, and both arr_time and arr_delay is na, flight may be missing. or data has missing information. 
+# in no situation, dep_delay has value, while dep_time has no value. 
+
+filter(flights,is.na(dep_delay),!is.na(dep_time))
+filter(flights,is.na(arr_time),!is.na(arr_delay))
+filter(flights,is.na(arr_delay))
+filter(flights,is.na(arr_time),!is.na(arr_delay))
+```
+
+```{r}
+
+# Q2 Currently dep_time and sched_dep_time are convenient to look at, but hard to compute with because they’re not really continuous numbers. Convert them to a more convenient representation of number of minutes since midnight.
+
+library(nycflights13)
+require(ggplot2)
+require(dplyr)
+
+flightmin <- mutate(flights,
+                    dep_min=(flights$dep_time%/%100*60)+flights$dep_time%%100,
+                    sched_dep_min=(sched_dep_time%/%100*60)+flights$sched_dep_time%%100)
+print(flightmin)
 
 
-#Currently dep_time and sched_dep_time are convenient to look at, but hard to compute with because they’re not really continuous numbers. Convert them to a more convenient representation of number of minutes since midnight.
+```
 
-
-#Look at the number of canceled flights per day. Is there a pattern? Is the proportion of canceled flights related to the average delay? Use multiple dyplr operations, all on one line, concluding with ggplot(aes(x= ,y=)) + geom_point()
-
+```{r}
+# Q3 Look at the number of canceled flights per day. Is there a pattern? Is the proportion of canceled flights related to the average delay? Use multiple dyplr operations, all on one line, concluding with ggplot(aes(x= ,y=)) + geom_point()
+```
 
 
 ```
