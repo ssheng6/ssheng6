@@ -66,18 +66,28 @@ flight_nc <- flights %>%
 flight_nc
 #cancel frequency by any day of a year
 ggplot(flight_nc, aes(day,cancelled)) +  geom_line()+ggtitle("total delay for each day in a year")+theme(plot.title = element_text(hjust = 0.5))
-```
 
-```{r}
-library(nycflights13)
-flight2<- flights %>%
-  summarise(avg_delay1 = mean(arr_delay))
-    
 #cancel frequency per weekday
 flights %>% mutate(dayWeek = wday(time_hour)) %>% 
   group_by(dayWeek)%>% summarize(cancelled = sum((is.na(flights$dep_delay)|is.na(flights$arr_delay)))) %>% 
   plot
 ```
 
+```{r}
+library(nycflights13)
+
+flight_nc <- flights %>% 
+  mutate(total= (is.na(flights$dep_delay)|!is.na(flights$dep_delay) | !is.na(flights$arr_delay)|is.na(flights$arr_delay)))%>%
+  mutate(cancelled = (is.na(flights$dep_delay)|is.na(flights$arr_delay)))%>%
+  mutate(day=yday(flights$time_hour))%>%
+  mutate(delay = mean(arr_delay,na.rm=T)) %>%
+  group_by(year,month,day) %>%
+  summarise(proportion = (sum(cancelled)/sum(total)),delay = mean(arr_delay,na.rm=T)) 
+#ggplot(data =flight_nc,aes(x=proportion ,y=delay)) + geom_point()
+ggplot(data =flight_nc, mapping = aes(x = proportion, y = delay)) + geom_point(alpha = 1/3) +geom_smooth(se = FALSE)+ggtitle("proportion of cancelled vs average delay")+theme(plot.title = element_text(hjust = 0.5))
+
+ggplot
 
 
+# yes, average delay time is related to the proportion of cancellation. 
+```
