@@ -1,13 +1,22 @@
 ---
 title: "HW4"
 author: "ssheng6"
-date: "9/30/2021"
+date: "10/05/2021"
 output: html_document
 ---
 
 ```{r}
 
+#What time of day should you fly if you want to avoid delays as much as possible? Does this choice depend on anything? #Season? Weather? Airport? Airline? Find three patterns (“null results” are ok!).
+#Write your results into Rmarkdown.
+#Include a short introduction that summarizes the three results. Then, have a section for each finding.
+#Support each finding with data summaries and visualizations. Include your code when necessary.
 
+library(nycflights13)
+require(dplyr)
+library(lubridate) 
+library(ggplot2)
+library(tidyverse)
 
 
 ```
