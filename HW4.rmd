@@ -18,37 +18,46 @@ library(lubridate)
 library(ggplot2)
 library(tidyverse)
 library(nycflights13)
-flights
-flights %>% colnames()
+
 not_cancelled <- flights %>% 
   filter(!is.na(dep_delay), !is.na(arr_delay))
 
 airline <- not_cancelled %>% 
               filter(arr_delay>0) %>%
-              group_by(carrier) %>% 
+              group_by(origin) %>% 
               arrange(desc(arr_delay))%>%
               summarise(delay = mean(arr_delay, na.rm=TRUE), n = n())
-airline
 
- # ggplot(airline, aes(x = carrier , y=delay)) + geom_histogram()
-
-flights1<-flights %>%
+flights1 <- flights %>%
   filter(arr_delay>0)
-ggplot(airline, mapping = aes(carrier, y= delay))
+
+#ggplot(flights1, aes(x = arr_delay, fill = carrier, colour = carrier)) + 
+#  geom_histogram(alpha = 0.5)
+
+ggplot(flights1, aes(x=reorder(x = carrier,arr_delay),y = arr_delay),fill = carrier, colour = carrier) +    geom_boxplot()+ggtitle("Pattern 1: Average Delay by Airline")+ coord_flip(ylim = c(0,80)) + labs(y="Carrier", x="Average Delay(min)")
+
+# First pattern: OO, YV, 9E is the airline more likely to delay compared with other airlines. 
+
+ggplot(flights1, aes(x=reorder(x = origin,arr_delay),y = arr_delay),fill = origin, colour = origin) +    geom_boxplot()+ggtitle("Pattern 2: Average Delay by airports")+ coord_flip(ylim = c(0,80)) + labs(y="Origin Airports", x="Average Delay(min)")
+
+# Second pattern: EWR have most delay compared with JFK, follow by LGA. 
 
 
+airline1 <- flights %>% 
+              filter(arr_delay>0) %>%
+              mutate(hour = hour(time_hour)) %>% 
+              group_by(hour)%>% 
+              summarize(arr_delay=mean(arr_delay, na.rm = T))
+ggplot(airline1, aes(x=reorder(x = hour,arr_delay),y = arr_delay),fill = hour, colour = hour) +    geom_boxplot()+ggtitle("Pattern 3: Average Delay by time of a day")+ coord_flip(ylim = c(0,60)) + labs(y="Average Delay(min)", x="hour in a day")
+# Pattern 3 in the morning departure hours and, delay is less than afternoon and evening hours. 
 
+# conclude 3 patterns, Choose US, HA, AS as Carrier, LGA as departure airport, and morning hours as departure time can largely avoid delay. 
 
-ggplot(flights1, aes(x = arr_delay, fill = carrier, colour = carrier)) + 
-  geom_histogram(alpha = 0.5)
-
-ggplot(flights1, aes(y = arr_delay,x = carrier, fill = carrier, colour = carrier)) + geom_boxplot()+ggtitle("Average Delay by Airline")
-
-```
-
-#ggplot(data =flight_nc,aes(x=proportion ,y=delay)) + geom_point()
-ggplot(data =flight_nc, mapping = aes(x = proportion, y = delay)) + geom_point(alpha = 1/3) +geom_smooth(se = FALSE)+ggtitle("proportion of cancelled vs average delay")+theme(plot.title = element_text(hjust = 0.5))
-
-ggplot
+airline3 <-flights %>%
+  filter(carrier == c("US","HA","AS"),hour(time_hour) == c(5,6,7,8), origin == "EWR",arr_delay>0)%>%
+  group_by(carrier,origin,hour)%>%
+  summarize(arr_delay=mean(arr_delay, na.rm = T))%>%
+  arrange(desc(arr_delay))
+airline3
 ```
 
