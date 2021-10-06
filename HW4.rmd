@@ -50,7 +50,25 @@ airline1 <- flights %>%
               summarize(arr_delay=mean(arr_delay, na.rm = T))
 ggplot(airline1, aes(x=reorder(x = hour,arr_delay),y = arr_delay),fill = hour, colour = hour) +    geom_boxplot()+ggtitle("Pattern 3: Average Delay by time of a day")+ coord_flip(ylim = c(0,60)) + labs(y="Average Delay(min)", x="hour in a day")
 # Pattern 3 in the morning departure hours and, delay is less than afternoon and evening hours. 
+weather2 <- 
+  weather %>%
+  mutate(date = make_date(year,month,day))%>%
+  group_by(date,origin)%>%
+  summarise(min_wnd = min(wind_speed, na.rm = T), mean_wnd = mean(wind_speed,na.rm = T))
 
+flights %>%
+  filter(arr_delay>0) %>%
+  mutate(date = make_date(year,month,day)) %>%
+  group_by(date, origin) %>%
+  summarise(arr_delay=mean(arr_delay, na.rm = T))%>%
+  left_join(weather2) %>% 
+  ggplot(aes(x = min_wnd,y = arr_delay))+
+  geom_point()+
+  geom_smooth(se = F, method = "lm")+
+  facet_wrap(~origin)+
+  labs(y="wind speed", x="average delay", title = "Average delay relation with wind speed")
+# pattern 4, wind speed is related to average delay on and EWR, but not incremental relation found on wind speed relation in JFK and LGA,
+# wind speed in LGA appeared to be the least related, while LGA has the least delay, so, the conclusion is wind speed realation to average delay is null. 
 # conclude 3 patterns, Choose US, HA, AS as Carrier, LGA as departure airport, and morning hours as departure time can largely avoid delay. 
 
 airline3 <-flights %>%
@@ -59,5 +77,8 @@ airline3 <-flights %>%
   summarize(arr_delay=mean(arr_delay, na.rm = T))%>%
   arrange(desc(arr_delay))
 airline3
+
+
+
 ```
 
