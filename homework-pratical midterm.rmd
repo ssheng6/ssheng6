@@ -14,6 +14,7 @@
 library(tidyverse)
 library(nycflights13)
 library(dplyr)
+library(tidyr)
 
 airports %>%
   semi_join(flights, c("faa" = "dest")) %>%
@@ -47,20 +48,27 @@ You might expect that thereâ€™s an implicit relationship between plane and 
 
 
 #### 3a.  Plane's average speed.
-                                                                                                                                                                          
-                                                                                                                                                                          Notice that ```flights$air_time``` is in minutes.  Make a new column that is the air time in hours. 
-                                                                                                                                                                          
-                                                                                                                                                                          ```{r}
-                                                                                                                                                                          # put your answer here.  
-                                                                                                                                                                          ```
-                                                                                                                                                                          
-                                                                                                                                                                          
-                                                                                                                                                                          #### 4b. Average speed
-                                                                                                                                                                          
-                                                                                                                                                                          For each flight, compute the average speed of that flight (in miles per hour).  Then, for each plane, compute the average of those average speeds. Display it in a histogram. You can use a base R histogram ```hist``` or ggplot's ```geom_histogram```. 
+
+Notice that ```flights$air_time``` is in minutes.  Make a new column that is the air time in hours. 
 
 ```{r}
 # put your answer here.  
+
+
+
+```
+
+
+
+#### 4b. Average speed
+
+For each flight, compute the average speed of that flight (in miles per hour).  Then, for each plane, compute the average of those average speeds. Display it in a histogram. You can use a base R histogram ```hist``` or ggplot's ```geom_histogram```. 
+
+```{r}
+# put your answer here.  
+
+
+
 ```
 
 
@@ -72,4 +80,24 @@ Make a table where each row is a destination, each column is a carrier, and each
 
 ```{r}
 # put answer here
+library(tidyverse)
+library(nycflights13)
+library(dplyr)
+library(tidyr)
+
+A2 <- flights %>%
+  filter(complete.cases(arr_time))%>%
+  group_by(carrier, dest) %>%
+  summarise(n=n())
+
+
+A1 <- flights %>%
+  filter(complete.cases(arr_time))%>%
+  group_by(carrier, dest) %>%
+  summarise(n=n()) %>%
+  pivot_wider(names_from = dest,
+              values_from = n
+              ,values_fill = 0)
+A2
+A1
 ```
