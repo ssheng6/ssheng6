@@ -1,0 +1,79 @@
+---
+title: "midterm"
+author: "ssheng6"
+date: "10/18/2021"
+output: html_document
+---
+
+```{r}
+library(tidyverse)
+library(nycflights13)
+library(dplyr)
+library(tidyr)
+
+airports
+
+flights %>%
+  group_by(dest) %>%
+  summarise(mean_delay=mean(arr_delay,na.rm=T)) %>%
+  left_join(airports,by=c("dest"="faa"))%>%
+  ggplot(aes(lon,lat)) +
+  borders("state") +
+  geom_point(aes(color = mean_delay,size = mean_delay, colour="red",hjust=0.5, vjust=1,alpha = 1)) +
+  coord_quickmap()
+
+```
+
+```{r}
+
+flights %>%
+  group_by(tailnum,carrier) %>%
+  summarize(n=n())%>%
+  group_by(tailnum)%>%
+  summarise(n=n())%>%
+  filter(n>1)
+
+
+```
+
+```{r}
+flights%>%mutate(time_hours=air_time/60)
+
+```
+
+
+
+```{r}
+flights%>%
+  mutate(time_hours = air_time/60,avg_speed = distance/time_hours)%>%
+  group_by(tailnum)%>%
+  summarize(mean_speed = mean(avg_speed))%>%
+  ggplot(aes(x=mean_speed))+geom_histogram()
+
+
+```
+
+
+
+```{r}
+library(tidyverse)
+library(nycflights13)
+library(dplyr)
+library(tidyr)
+
+A2 <- flights %>%
+  filter(complete.cases(arr_time))%>%
+  group_by(carrier, dest) %>%
+  summarise(n=n())
+
+
+A1 <- flights %>%
+  filter(complete.cases(arr_time))%>%
+  group_by(carrier, dest) %>%
+  summarise(n=n()) %>%
+  pivot_wider(names_from = dest,
+              values_from = n
+              ,values_fill = 0)
+A2
+A1
+```
