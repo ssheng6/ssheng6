@@ -61,18 +61,40 @@ p3 %>% ggplot(aes(year,mean_delay))+geom_point()
 
 ```{r}
 
+flight4= flights%>%
+  filter(origin =="EWR")%>%
+  group_by(dest)%>%
+  summarise(mean_distance=mean(distance,na.rm=TRUE),flight_time=mean(air_time,na.rm=TRUE))
 
- 
+
+flight4%>%ggplot(aes(mean_distance,flight_time))+geom_point()
+
+
+
+
 ```
 
 
 2b) Using this data, compute the distance divided by the average air_time.  Call this the typical_speed.  Plot the typical_speed on the vertical axis and distance on the horizontal axis.  
 
 ```{r}
+flight4
+flight5=flight4%>%
+  group_by(dest)%>%
+  summarise(typical_speed=mean_distance/flight_time)
+           
+           
+           
+flight5
+
+flight6= flight4 %>%
+  left_join(flight5, c("dest" = "dest"))
+
+flight6
+flight6%>%ggplot(aes(mean_distance,typical_speed))+geom_point()
 
 
 
- 
 ```
 
 #### 3.   Bad weather metric
@@ -97,6 +119,25 @@ bad_weather =
             wind_gust = mean(wind_gust, na.rm = T),
             precip = mean(precip, na.rm = T),
             visib = mean(visib, na.rm = T))
+
+relation = flights_canceled%>%
+  left_join(bad_weather, c("origin", "month","day"))
+
+relation
+bad_weather
+relation2= relation %>% pivot_longer(`temp`:`visib`, names_to = "weather", values_to = "return")
+relation2
+
+
+
+relation2%>%
+ggplot(aes(x = day,y = Y))+
+  geom_point()+
+  geom_smooth(se = F, method = "lm")+
+  facet_wrap(~weather)
+
+
+
 
 # put these data frames together with a column for Y and columns for all the weather variables.  DON'T OVER THINK THIS!
 
