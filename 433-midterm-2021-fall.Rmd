@@ -1,0 +1,127 @@
+---
+title: "midterm"
+author: "ssheng6"
+output: html_document
+---
+  
+## Midterm.
+  
+#### 1.  Summarize the planes
+  
+
+```{r}
+# put your answer here. 
+library(tidyverse)
+library(nycflights13)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+planes
+
+
+flight1 = flights %>%
+  group_by(tailnum) %>%
+  summarise(mean_delay=mean(arr_delay,na.rm=TRUE))
+
+flight2 = flights %>%
+  group_by(tailnum) %>%
+  summarise(mean_distance=mean(distance,na.rm=TRUE))
+flight2
+
+flight3 = flights%>%
+  group_by(tailnum) %>%
+  summarise(n=n())
+flight3
+
+p1 = planes %>%
+  left_join(flight1, c("tailnum" = "tailnum"))
+p1 
+  
+p2 = p1 %>%
+  left_join(flight2, c("tailnum" = "tailnum"))
+p2
+
+
+
+p2 %>% ggplot(aes( mean_distance,mean_delay))+geom_point() 
+
+
+p3 = p2 %>%
+  left_join(flight3, c("tailnum" = "tailnum"))
+
+p3 %>% ggplot(aes(n,mean_delay))+geom_point() 
+
+p3 %>% ggplot(aes(year,mean_delay))+geom_point() 
+
+```
+
+#### 2.   Distance vs flight time
+
+2a) Let's only study flights departing from EWR. For each destination, compute the average flight time (air_time) and the number of miles to that destination.  Make a plot with miles to destination on the horizontal axis and average flight time on the vertical axis.    
+
+```{r}
+
+
+ 
+```
+
+
+2b) Using this data, compute the distance divided by the average air_time.  Call this the typical_speed.  Plot the typical_speed on the vertical axis and distance on the horizontal axis.  
+
+```{r}
+
+
+
+ 
+```
+
+#### 3.   Bad weather metric
+
+Let's fit a linear model, for each origin x day.  The outcome is the proportion of flights canceled.  The features will be simple summaries of the weather.  
+
+I've done a bunch of work below to get you started... there is one line that you need to finish...
+
+```{r}
+flights_canceled = 
+  flights %>% 
+  group_by(origin, month,day) %>% 
+  summarise(Y = mean(is.na(dep_time)))
+
+bad_weather = 
+  weather %>% 
+  group_by(origin, month,day) %>% 
+  summarize(temp = mean(temp, na.rm = T),
+            dewp = mean(dewp, na.rm = T),
+            humid = mean(humid, na.rm = T),
+            wind_speed = mean(wind_speed, na.rm = T),
+            wind_gust = mean(wind_gust, na.rm = T),
+            precip = mean(precip, na.rm = T),
+            visib = mean(visib, na.rm = T))
+
+# put these data frames together with a column for Y and columns for all the weather variables.  DON'T OVER THINK THIS!
+
+#X = .....
+
+# then, uncomment these next lines to fit a linear model...
+#fit = lm(Y~temp + dewp+humid+wind_speed + wind_gust+precip+visib, data = X)
+#summary(fit)       
+            
+```
+
+
+#### 4.  Planes with four engines
+
+Find all of the planes with 4 engines:
+
+```{r}
+
+
+planes%>%
+  filter(engines =="4")
+
+
+ 
+```
+
+
+

@@ -1,0 +1,16 @@
+---
+title: "midterm"
+author: "ssheng6"
+date: "10/19/2021"
+output: html_document
+---
+
+```{r setup,}
+library(tidyverse)
+library(nycflights13)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+
+
+```
