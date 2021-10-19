@@ -1,0 +1,11 @@
+name: Publish Document
+title:
+username:
+account: rpubs
+server: rpubs.com
+hostUrl: rpubs.com
+appId: https://api.rpubs.com/api/v1/document/824468/dac5ca1220e2494e84431ca2d658f9d6
+bundleId: https://api.rpubs.com/api/v1/document/824468/dac5ca1220e2494e84431ca2d658f9d6
+url: http://rpubs.com/ssheng2013/824468
+when: 1634685733.15282
+lastSyncTime: 1634685733.15282

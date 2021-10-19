@@ -104,6 +104,8 @@ Let's fit a linear model, for each origin x day.  The outcome is the proportion 
 I've done a bunch of work below to get you started... there is one line that you need to finish...
 
 ```{r}
+library(ISLR)
+library(ggplot2)
 flights_canceled = 
   flights %>% 
   group_by(origin, month,day) %>% 
@@ -119,35 +121,22 @@ bad_weather =
             wind_gust = mean(wind_gust, na.rm = T),
             precip = mean(precip, na.rm = T),
             visib = mean(visib, na.rm = T))
-
-relation = flights_canceled%>%
-  left_join(bad_weather, c("origin", "month","day"))
-
-relation
-bad_weather
-relation2= relation %>% pivot_longer(`temp`:`visib`, names_to = "weather", values_to = "return")
-relation2
+bad_weather 
+flights_canceled
 
 
 
-relation2%>%
-ggplot(aes(x = day,y = Y))+
-  geom_point()+
-  geom_smooth(se = F, method = "lm")+
-  facet_wrap(~weather)
+X = flights_canceled %>% left_join(bad_weather,c("origin","month","day"))
+
+fit = lm(Y~temp + dewp+humid+wind_speed + wind_gust+precip+visib, data = X)
+summary(fit) 
 
 
-
-
-# put these data frames together with a column for Y and columns for all the weather variables.  DON'T OVER THINK THIS!
-
-#X = .....
-
-# then, uncomment these next lines to fit a linear model...
-#fit = lm(Y~temp + dewp+humid+wind_speed + wind_gust+precip+visib, data = X)
-#summary(fit)       
+       
             
 ```
+
+
 
 
 #### 4.  Planes with four engines
